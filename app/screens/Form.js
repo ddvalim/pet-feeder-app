@@ -28,22 +28,22 @@ export default function AppForm() {
 
   return (
     <View style={styles.container}>
-      <View style={{width: '100%', marginTop: 100}}>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputTitle}>Bowl</Text>
         <TextInput
-          placeholder="Bowl"
           style={styles.input}
           value={input}
           onChangeText={(text) => setInput(text)}
         ></TextInput>
       </View>
-        <TouchableOpacity style={{padding: 10, backgroundColor: 'green', borderRadius: 20, marginTop: 10}} onPress={armazenaLogs}>
-          <Text>Recuperar Logs</Text>
+        <TouchableOpacity style={styles.button} onPress={armazenaLogs}>
+          <Text style={styles.buttonText}>Recuperar Logs</Text>
         </TouchableOpacity>
-      <View style={{ paddingTop: 10 }}>
-        <Text>LOGS</Text>
+      <View style={styles.logs}>
+        <Text style={{fontSize: 20, fontWeight: "bold", paddingBottom: 5}}>{logs.length > 0 ? 'LOGS' : 'Sem LOGS'}</Text>
         <FlatList
           data={logs}
-          renderItem={({ item }) => <Text>{item.log}</Text>}
+          renderItem={({ item }) => <Text style={styles.content}>{`${item.log}`}</Text>}
         />
       </View>
     </View>
@@ -55,11 +55,45 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   input: {
     paddingLeft: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#2222",
+    borderWidth: 1,
+    borderColor: "#2222",
+    height: 30,
+    marginTop: 10,
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  button: {
+    padding: 10, 
+    backgroundColor: "#8FBC8F", 
+    borderRadius: 20, 
+    marginTop: 10,
+  },
+  inputTitle: {
+  },
+  inputContainer: {
+    width: "70%",
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    padding: 5,
+  },
+  logs: { 
+    paddingTop: 20,
+    paddingHorizontal: 40,
+    backgroundColor: "#2222",
+    height: "50%",
+    width: "75%",
+    marginTop: 20,
+    borderRadius: 20,
+    alignItems: "center", 
+  },
+  content: {
+    paddingVertical: 3,
+    fontSize: 15,
   },
 });
