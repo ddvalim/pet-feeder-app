@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet,
   View,
   Text, 
@@ -10,9 +10,10 @@ import { StyleSheet,
 import getLogs from "../services";
 
 export default function AppForm() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState('0');
   const [logs, setLogs] = useState([]);
 
+  useEffect(() => {armazenaLogs()}, [])
   const armazenaLogs = async () => {
     try {
       const logs = await getLogs(input);
@@ -24,14 +25,14 @@ export default function AppForm() {
   const pegaLogs = () => {
     if(logs){
       console.log(logs)
+      logs.forEach(function(log){
+        console.log(logs)
         return (
-          <ScrollView>
-            <Text>Passei aqui</Text>
-            {logs.forEach(log => (
-              <Text>{log.log}</Text>
-            ))}
-          </ScrollView>
+          <View>
+            <Text>{log.log}</Text>
+          </View>
         )
+      });
     } else { 
       return (
         <View><Text>sem logs</Text></View>
@@ -50,7 +51,7 @@ export default function AppForm() {
         <TouchableOpacity onPress={armazenaLogs}>
           <Text>Recuperar Logs</Text>
         </TouchableOpacity>
-        <View>{pegaLogs()}</View>
+        {pegaLogs()}
       </View>
     );
   }
