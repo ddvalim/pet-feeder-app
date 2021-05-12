@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet,
+import {
+  StyleSheet,
   View,
-  Text, 
-  TouchableOpacity, 
-  TextInput, 
+  Text,
+  TouchableOpacity,
+  TextInput,
   FlatList,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import getLogs from "../services";
 
 export default function AppForm() {
-  const [input, setInput] = useState('0');
+  const [input, setInput] = useState("0");
   const [logs, setLogs] = useState([]);
 
-  useEffect(() => {armazenaLogs()}, [])
+  useEffect(() => {
+    armazenaLogs();
+  }, []);
   const armazenaLogs = async () => {
     try {
       const logs = await getLogs(input);
@@ -21,55 +24,42 @@ export default function AppForm() {
     } catch (err) {
       console.log(err);
     }
-  }
-  const pegaLogs = () => {
-    if(logs){
-      console.log(logs)
-      logs.forEach(function(log){
-        console.log(logs)
-        return (
-          <View>
-            <Text>{log.log}</Text>
-          </View>
-        )
-      });
-    } else { 
-      return (
-        <View><Text>sem logs</Text></View>
-      )
-    }
-  }
+  };
 
-    return (
-      <View style={styles.container}>
+  return (
+    <View style={styles.container}>
+      <View style={{width: '100%', marginTop: 100}}>
         <TextInput
-          placeholder='Bowl' 
-          style={styles.input} 
-          value={input} 
-          onChangeText={(text) => setInput(text)}>
-          </TextInput>
-        <TouchableOpacity onPress={armazenaLogs}>
+          placeholder="Bowl"
+          style={styles.input}
+          value={input}
+          onChangeText={(text) => setInput(text)}
+        ></TextInput>
+      </View>
+        <TouchableOpacity style={{padding: 10, backgroundColor: 'green', borderRadius: 20, marginTop: 10}} onPress={armazenaLogs}>
           <Text>Recuperar Logs</Text>
         </TouchableOpacity>
-        {pegaLogs()}
+      <View style={{ paddingTop: 10 }}>
+        <Text>LOGS</Text>
+        <FlatList
+          data={logs}
+          renderItem={({ item }) => <Text>{item.log}</Text>}
+        />
       </View>
-    );
-  }
-   
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#FFFFFF',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    input: {
-      paddingLeft: 10,
-      width: "90%",
-      borderBottomWidth: 1,
-      borderBottomColor: "#2222",
-    },
-    flatList: {
-      flex: 1,
-    }
-  });
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    paddingLeft: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#2222",
+  },
+});
